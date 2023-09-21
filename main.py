@@ -17,6 +17,9 @@ LABEL_BG_COLOR = "light blue"
 LABEL_COLUMN_START = 0
 LABEL_ROW_START = 1
 
+BUTTON_PAD_Y = 5
+BUTTON_PAD_X = 5
+
 FONT_NAME = "Courier"
 BOLDED_FONT = ("Arial", 26, "bold")
 LOGO_FILE = "logo.png"
@@ -47,12 +50,20 @@ canvas.grid(column=1, row=0)
 website_label = Label(text="Website:", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR, font=LABEL_FONT)
 website_label.grid(column=LABEL_COLUMN_START, row=LABEL_ROW_START)
 
-email_user_label = Label(text="Email/Username:", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR, font=LABEL_FONT)
+email_user_label = Label(text="Email/Username:", background=LABEL_BG_COLOR,
+                         fg=LABEL_TEXT_COLOR, font=LABEL_FONT)
 email_user_label.grid(column=LABEL_COLUMN_START, row=LABEL_ROW_START+1)
 
-password_label = Label(text="Password:", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR, font=LABEL_FONT)
+password_label = Label(text="Password:", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
+                       font=LABEL_FONT)
 password_label.grid(column=LABEL_COLUMN_START, row=LABEL_ROW_START+2)
 
+generate_password_button = Button(text="Generate Password", background=LABEL_BG_COLOR,
+                                  fg=LABEL_TEXT_COLOR, font=LABEL_FONT)
+generate_password_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START+2)
 
-
+add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
+                    font=LABEL_FONT, width=36)
+add_button.grid(column=LABEL_COLUMN_START, row=LABEL_ROW_START+3, columnspan=3,
+                pady=BUTTON_PAD_Y)
 window.mainloop()
