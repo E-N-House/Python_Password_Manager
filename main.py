@@ -1,11 +1,12 @@
 from tkinter import *
 import math
+from EMAIL import EMAIL_PERSONAL
 
 # ----------------------------      CONSTANTS      ------------------------------- #
 PROJECT_NAME = "Password Manager"
 WINDOW_WIDTH = 200
 WINDOW_HEIGHT = 200
-PADDING_WINDOW = 20
+PADDING_WINDOW = 50
 COLOR_PRIMARY = "white"
 COLOR_SECOND = "yellow"
 COLOR_THIRD = "#e2979c"
@@ -68,14 +69,18 @@ password_label.grid(column=LABEL_COLUMN_START, row=LABEL_ROW_START+2, pady=BUTTO
 
 
 # FORM ENTRIES
-# TODO: fix entries so they line up correctly
+# TODO: double check entries line up correctly
 website_entry = Entry(background=FORM_BG_COLOR, fg=LABEL_TEXT_COLOR,
                       font=LABEL_FONT, width=FORM_ENTRY_WIDTH)
 website_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START, columnspan=2, sticky="w")
+# center curser on website entry
+website_entry.focus()
 
 email_user_entry = Entry(background=FORM_BG_COLOR,
                          fg=LABEL_TEXT_COLOR, font=LABEL_FONT, width=FORM_ENTRY_WIDTH)
 email_user_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+1, columnspan=2,  sticky="w")
+# pre-fill in email with personal email
+email_user_entry.insert(0, EMAIL_PERSONAL)
 
 password_entry = Entry(background=FORM_BG_COLOR, fg=LABEL_TEXT_COLOR,
                        font=LABEL_FONT, width=PASSWORD_ENTRY_WIDTH)
