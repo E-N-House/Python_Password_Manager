@@ -1,6 +1,6 @@
 from tkinter import *
-import math
-# NOTE: anyone else downloading app will be unable to use
+
+# NOTE: anyone else with app will be unable to use
 from EMAIL import EMAIL_WORK
 
 # ----------------------------      CONSTANTS      ------------------------------- #
@@ -33,17 +33,13 @@ FONT_NAME = "Courier"
 BOLDED_FONT = ("Arial", 26, "bold")
 LOGO_FILE = "logo.png"
 
+DATA_FILE = "pw_data.txt"
+
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
-user_entry_website = "WEBSITE"
-user_entry_email = EMAIL_WORK
-user_entry_pw = "PASSWORD"
-new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw} \n"
-DATA_FILE = "pw_data.txt"
-
 
 # create pw_data.txt file
 def create_data_file():
@@ -59,25 +55,31 @@ def create_data_file():
         return False
 
 
-#   format the info with " | " between each field
-new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
-
-
 def add_entry():
+    new_entry = save_information_to_string()
     create_data_file()
-    if create_data_file():
-        #   take the new string and append it to the pw_data.txt file
-        with open("pw_data.txt", mode="a") as data_file:
-            data_file.write(new_entry)
-            data_file.close()
-    else:
-        print("not there")
+    #   take the new string and append it to the pw_data.txt file
+    with open("pw_data.txt", mode="a") as data_file:
+        data_file.write(new_entry)
+        data_file.close()
 
 
-# TODO: copy info from entries to a pw_data.txt file
-#   save that new sting in a variable
+#   save that new string in a variable
+def save_information_to_string():
+    user_entry_website = website_entry.get()
+    user_entry_email = email_user_entry.get()
+    user_entry_pw = password_entry.get()
+    # format the info with " | " between each field
+    new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
+    return new_entry
+
 
 # TODO: clear all entries of information
+def clear_forms():
+    pass
+
+# TODO: copy info from entries to a pw_data.txt file
+
 
 
 # ---------------------------- UI SETUP ------------------------------- #
