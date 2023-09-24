@@ -79,6 +79,9 @@ def add_entry():
             data_file.write(new_entry)
             data_file.close()
             print("new entry added")
+        # TODO: delete invalid message after sucessful add
+        # if invalid_entry_message:
+        #     print("exists")
     else:
         invalid_entry_message = Message(text='All Fields Must Be Entered', background=COLOR_ERRORS,
                                         font=ERROR_FONT, fg="white")
