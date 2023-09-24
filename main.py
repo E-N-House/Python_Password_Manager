@@ -23,7 +23,7 @@ BUTTON_PAD_Y = 5
 BUTTON_PAD_X = 5
 
 FORM_BG_COLOR = "light yellow"
-FORM_ENTRY_WIDTH = 45
+FORM_ENTRY_WIDTH = 46
 
 PASSWORD_ENTRY_WIDTH = 27
 
@@ -77,9 +77,6 @@ def save_information_to_string():
 # TODO: clear all entries of information
 def clear_forms():
     pass
-
-# TODO: copy info from entries to a pw_data.txt file
-
 
 
 # ---------------------------- UI SETUP ------------------------------- #
