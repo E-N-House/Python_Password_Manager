@@ -1,5 +1,6 @@
 from tkinter import *
 import math
+# NOTE: anyone else downloading app will be unable to use
 from EMAIL import EMAIL_WORK
 
 # ----------------------------      CONSTANTS      ------------------------------- #
@@ -68,6 +69,7 @@ def add_entry():
         #   take the new string and append it to the pw_data.txt file
         with open("pw_data.txt", mode="a") as data_file:
             data_file.write(new_entry)
+            data_file.close()
     else:
         print("not there")
 
@@ -116,6 +118,7 @@ website_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START, columnspan=
 # center curser on website entry
 website_entry.focus()
 
+# IDEA: refactor email_user_entry to be a dropdown choice of users common emails
 email_user_entry = Entry(background=FORM_BG_COLOR,
                          fg=LABEL_TEXT_COLOR, font=LABEL_FONT, width=FORM_ENTRY_WIDTH)
 email_user_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+1, columnspan=2,  sticky="w")
