@@ -1,6 +1,6 @@
 from tkinter import *
 import math
-from EMAIL import EMAIL_PERSONAL
+from EMAIL import EMAIL_WORK
 
 # ----------------------------      CONSTANTS      ------------------------------- #
 PROJECT_NAME = "Password Manager"
@@ -37,6 +37,46 @@ LOGO_FILE = "logo.png"
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+user_entry_website = "WEBSITE"
+user_entry_email = EMAIL_WORK
+user_entry_pw = "PASSWORD"
+new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw} \n"
+DATA_FILE = "pw_data.txt"
+
+
+# create pw_data.txt file
+def create_data_file():
+    try:
+        open(DATA_FILE).close()
+        print("there")
+        return True
+    except FileNotFoundError:
+        print("creating new pw_data file")
+        with open("pw_data.txt", mode="w") as new_file:
+            new_file.write("WEBSITE | EMAIL_OR_USER | PASSWORD\n")
+            new_file.close()
+        return False
+
+
+#   format the info with " | " between each field
+new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
+
+
+def add_entry():
+    create_data_file()
+    if create_data_file():
+        #   take the new string and append it to the pw_data.txt file
+        with open("pw_data.txt", mode="a") as data_file:
+            data_file.write(new_entry)
+    else:
+        print("not there")
+
+
+# TODO: copy info from entries to a pw_data.txt file
+#   save that new sting in a variable
+
+# TODO: clear all entries of information
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -80,7 +120,7 @@ email_user_entry = Entry(background=FORM_BG_COLOR,
                          fg=LABEL_TEXT_COLOR, font=LABEL_FONT, width=FORM_ENTRY_WIDTH)
 email_user_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+1, columnspan=2,  sticky="w")
 # pre-fill in email with personal email
-email_user_entry.insert(0, EMAIL_PERSONAL)
+email_user_entry.insert(0, EMAIL_WORK)
 
 password_entry = Entry(background=FORM_BG_COLOR, fg=LABEL_TEXT_COLOR,
                        font=LABEL_FONT, width=PASSWORD_ENTRY_WIDTH)
@@ -93,7 +133,7 @@ generate_password_button = Button(text="Generate Password", background=LABEL_BG_
 generate_password_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START+2,)
 
 add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
-                    font=LABEL_FONT, width=ADD_BUTTON_WIDTH)
+                    font=LABEL_FONT, width=ADD_BUTTON_WIDTH, command=add_entry)
 add_button.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+3, columnspan=2,
                 pady=BUTTON_PAD_Y, padx=BUTTON_PAD_X, sticky="w")
 
