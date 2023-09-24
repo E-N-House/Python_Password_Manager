@@ -12,6 +12,8 @@ COLOR_PRIMARY = "white"
 COLOR_SECOND = "yellow"
 COLOR_THIRD = "#e2979c"
 COLOR_ERRORS = "#e7305b"
+ERROR_FONT = ("Arial", 20, "bold")
+
 
 LABEL_FONT = ("Arial", 10)
 LABEL_TEXT_COLOR = "black"
@@ -36,32 +38,22 @@ LOGO_FILE = "logo.png"
 DATA_FILE = "pw_data.txt"
 
 
-
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def generate_pw():
+    print("pw clicked")
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+
 
 # create pw_data.txt file
 def create_data_file():
     try:
         open(DATA_FILE).close()
-        print("there")
-        return True
     except FileNotFoundError:
         print("creating new pw_data file")
         with open("pw_data.txt", mode="w") as new_file:
             new_file.write("WEBSITE | EMAIL_OR_USER | PASSWORD\n")
             new_file.close()
-        return False
-
-
-def add_entry():
-    new_entry = save_information_to_string()
-    create_data_file()
-    #   take the new string and append it to the pw_data.txt file
-    with open("pw_data.txt", mode="a") as data_file:
-        data_file.write(new_entry)
-        data_file.close()
 
 
 #   save that new string in a variable
@@ -69,9 +61,32 @@ def save_information_to_string():
     user_entry_website = website_entry.get()
     user_entry_email = email_user_entry.get()
     user_entry_pw = password_entry.get()
-    # format the info with " | " between each field
-    new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
-    return new_entry
+    # validate all fields filled
+    if user_entry_website == "" or user_entry_email == "" or user_entry_pw == "":
+        print("empty fields")
+    else:
+        # format the info with " | " between each field
+        new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
+        return new_entry
+
+
+def add_entry():
+    new_entry = save_information_to_string()
+    create_data_file()
+    if new_entry:
+        #   take the new string and append it to the pw_data.txt file
+        with open("pw_data.txt", mode="a") as data_file:
+            data_file.write(new_entry)
+            data_file.close()
+            print("new entry added")
+    else:
+        invalid_entry_message = Message(text='All Fields Must Be Entered', background=COLOR_ERRORS,
+                                        font=ERROR_FONT, fg="white")
+        invalid_entry_message.grid(row=0, column=0, columnspan=3)
+
+
+
+
 
 
 # TODO: clear all entries of information
@@ -131,7 +146,7 @@ password_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START + 2,  stick
 
 # BUTTONS
 generate_password_button = Button(text="Generate Password", background=LABEL_BG_COLOR,
-                                  fg=LABEL_TEXT_COLOR, font=LABEL_FONT)
+                                  fg=LABEL_TEXT_COLOR, font=LABEL_FONT, command=generate_pw)
 generate_password_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START+2,)
 
 add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
