@@ -1,5 +1,5 @@
 from tkinter import *
-
+from tkinter import messagebox
 # NOTE: anyone else with app will be unable to use
 from EMAIL import EMAIL_WORK
 
@@ -78,7 +78,6 @@ def add_entry():
     then Creates a formatted string to append onto file"""
     new_entry = save_information_to_string()
     create_data_file()
-    print(type(new_entry))
     if type(new_entry) == str:
         #   take the new string and append it to the pw_data.txt file
         with open(DATA_FILE, mode="a") as data_file:
