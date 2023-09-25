@@ -47,8 +47,8 @@ def generate_pw():
 
 # create pw_data.txt file
 def create_data_file():
-    """checks if a file exists. And if it doesn't creates a text file using global constant DATA_FILE
-    and fills in the column names as top row seperated by spacer"""
+    """checks if a file exists. And if it doesn't create a text file using global constant DATA_FILE
+    and fills in the column names as top row separated by spacer"""
     try:
         open(DATA_FILE).close()
     except FileNotFoundError:
