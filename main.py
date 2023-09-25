@@ -40,6 +40,7 @@ DATA_FILE = "pw_data.txt"
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_pw():
+    invalid_entry_message["text"]
     print("pw clicked")
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
@@ -60,6 +61,8 @@ def create_data_file():
 
 #   save that new string in a variable
 def save_information_to_string():
+    """gets values from form validates they are filled in.
+    if yes returns formatted string"""
     user_entry_website = website_entry.get()
     user_entry_email = email_user_entry.get()
     user_entry_pw = password_entry.get()
@@ -77,27 +80,31 @@ def add_entry():
     then Creates a formatted string to append onto file"""
     new_entry = save_information_to_string()
     create_data_file()
-    if new_entry:
+    print(type(new_entry))
+    if type(new_entry) == str:
         #   take the new string and append it to the pw_data.txt file
         with open(DATA_FILE, mode="a") as data_file:
             data_file.write(new_entry)
             data_file.close()
             print("new entry added")
+            clear_forms()
         # TODO: delete invalid message after successful add
         # if invalid_entry_message:
         #     print("exists")
     else:
         create_message('All Fields Must Be Entered')
+        return
 
 
 def create_message(message):
-    invalid_entry_message = Message(text=message, background=COLOR_ERRORS,
-                                    font=ERROR_FONT, fg="white")
-    invalid_entry_message.grid(row=0, column=0, columnspan=3)
+    error_message.config(text=message)
+    error_message.grid(row=0, column=0, columnspan=3)
 
 
 # TODO: clear all entries of information
 def clear_forms():
+    error_message.config(text="")
+    error_message.grid_remove()
     pass
 
 
@@ -162,4 +169,7 @@ add_button.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+3, columnspan=2
                 pady=BUTTON_PAD_Y, padx=BUTTON_PAD_X, sticky="w")
 
 
+# Error message
+error_message = Message(text="", background=COLOR_ERRORS,
+                        font=ERROR_FONT, fg="white")
 window.mainloop()
