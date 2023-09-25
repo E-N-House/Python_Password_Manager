@@ -55,7 +55,6 @@ def create_data_file():
         print(f"creating new {DATA_FILE} file")
         with open("pw_data.txt", mode="a") as new_file:
             new_file.write("WEBSITE | EMAIL_OR_USER | PASSWORD\n")
-            new_file.close()
 
 
 #   save that new string in a variable
