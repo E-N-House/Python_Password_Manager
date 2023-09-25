@@ -40,7 +40,6 @@ DATA_FILE = "pw_data.txt"
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_pw():
-    invalid_entry_message["text"]
     print("pw clicked")
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
@@ -87,10 +86,7 @@ def add_entry():
             data_file.write(new_entry)
             data_file.close()
             print("new entry added")
-            clear_forms()
-        # TODO: delete invalid message after successful add
-        # if invalid_entry_message:
-        #     print("exists")
+            reset_forms()
     else:
         create_message('All Fields Must Be Entered')
         return
@@ -101,11 +97,20 @@ def create_message(message):
     error_message.grid(row=0, column=0, columnspan=3)
 
 
-# TODO: clear all entries of information
-def clear_forms():
-    error_message.config(text="")
+# reset the UI
+def reset_forms():
+    """clear website (set website to focus) and clear password entries.
+    Reset email to default. Remove error if it exists"""
+    # clear out forms and reset email to default
+    website_entry.delete(0, END)
+    website_entry.focus()
+    password_entry.delete(0, END)
+    email_user_entry.delete(0, END)
+    email_user_entry.insert(0, EMAIL_WORK)
+
+    # hide invalid message after successful add
     error_message.grid_remove()
-    pass
+    return
 
 
 # ---------------------------- UI SETUP ------------------------------- #
