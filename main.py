@@ -47,11 +47,13 @@ def generate_pw():
 
 # create pw_data.txt file
 def create_data_file():
+    """checks if a file exists. And if it doesn't creates a text file using global constant DATA_FILE
+    and fills in the column names as top row seperated by spacer"""
     try:
         open(DATA_FILE).close()
     except FileNotFoundError:
-        print("creating new pw_data file")
-        with open("pw_data.txt", mode="w") as new_file:
+        print(f"creating new {DATA_FILE} file")
+        with open("pw_data.txt", mode="a") as new_file:
             new_file.write("WEBSITE | EMAIL_OR_USER | PASSWORD\n")
             new_file.close()
 
@@ -71,25 +73,27 @@ def save_information_to_string():
 
 
 def add_entry():
+    """Validates that all forms contain values
+    then Creates a formatted string to append onto file"""
     new_entry = save_information_to_string()
     create_data_file()
     if new_entry:
         #   take the new string and append it to the pw_data.txt file
-        with open("pw_data.txt", mode="a") as data_file:
+        with open(DATA_FILE, mode="a") as data_file:
             data_file.write(new_entry)
             data_file.close()
             print("new entry added")
-        # TODO: delete invalid message after sucessful add
+        # TODO: delete invalid message after successful add
         # if invalid_entry_message:
         #     print("exists")
     else:
-        invalid_entry_message = Message(text='All Fields Must Be Entered', background=COLOR_ERRORS,
-                                        font=ERROR_FONT, fg="white")
-        invalid_entry_message.grid(row=0, column=0, columnspan=3)
+        create_message('All Fields Must Be Entered')
 
 
-
-
+def create_message(message):
+    invalid_entry_message = Message(text=message, background=COLOR_ERRORS,
+                                    font=ERROR_FONT, fg="white")
+    invalid_entry_message.grid(row=0, column=0, columnspan=3)
 
 
 # TODO: clear all entries of information
