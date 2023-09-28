@@ -52,7 +52,8 @@ def create_data_file():
     try:
         open(DATA_FILE).close()
     except FileNotFoundError:
-        print(f"creating new {DATA_FILE} file")
+        messagebox.showinfo(title="Creating File", message=f"Creating a file named {DATA_FILE}\n"
+                                                           f"to store your information.")
         with open("pw_data.txt", mode="a") as new_file:
             new_file.write("WEBSITE | EMAIL_OR_USER | PASSWORD\n")
 
@@ -77,7 +78,6 @@ def add_entry():
     """Validates that all forms contain values
     then Creates a formatted string to append onto file"""
     new_entry = save_information_to_string()
-    create_data_file()
     if type(new_entry) == str:
         #   take the new string and append it to the pw_data.txt file
         with open(DATA_FILE, mode="a") as data_file:
@@ -86,13 +86,8 @@ def add_entry():
             print("new entry added")
             reset_forms()
     else:
-        create_message('All Fields Must Be Entered')
+        messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
         return
-
-
-def create_message(message):
-    error_message.config(text=message)
-    error_message.grid(row=0, column=0, columnspan=3)
 
 
 # reset the UI
@@ -105,9 +100,6 @@ def reset_forms():
     password_entry.delete(0, END)
     email_user_entry.delete(0, END)
     email_user_entry.insert(0, EMAIL_WORK)
-
-    # hide invalid message after successful add
-    error_message.grid_remove()
     return
 
 
@@ -171,8 +163,7 @@ add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
 add_button.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+3, columnspan=2,
                 pady=BUTTON_PAD_Y, padx=BUTTON_PAD_X, sticky="w")
 
+# checks for data file on launch and creates if not there
+create_data_file()
 
-# Error message
-error_message = Message(text="", background=COLOR_ERRORS,
-                        font=ERROR_FONT, fg="white")
 window.mainloop()
