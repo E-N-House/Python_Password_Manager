@@ -67,11 +67,18 @@ def save_information_to_string():
     user_entry_pw = password_entry.get()
     # validate all fields filled
     if user_entry_website == "" or user_entry_email == "" or user_entry_pw == "":
-        print("empty fields")
+        return False
     else:
-        # format the info with " | " between each field
-        new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
-        return new_entry
+        # ask user if they want these settings
+        is_ok = messagebox.askokcancel(title="Entry to be added", message=f"You have entered the following\n"
+                                                                  f"Website:    {user_entry_website}\n"
+                                                                  f"Username/Email: {user_entry_email}\n"
+                                                                  f"Password:   {user_entry_pw}\n"
+                                                                  f"Press OK to accept or CANCEL to try again.")
+        if is_ok:
+            # format the info with " | " between each field
+            new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
+            return new_entry
 
 
 def add_entry():
@@ -83,7 +90,7 @@ def add_entry():
         with open(DATA_FILE, mode="a") as data_file:
             data_file.write(new_entry)
             data_file.close()
-            print("new entry added")
+            messagebox.showinfo(title="New Data Accepted", message="Your new password was added.")
             reset_forms()
     else:
         messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
