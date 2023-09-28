@@ -59,15 +59,16 @@ def create_data_file():
 
 
 #   save that new string in a variable
-def save_information_to_string():
-    """gets values from form validates they are filled in.
+def save_entries_to_string():
+    """gets values from form validates they are filled in correctly.
     if yes returns formatted string"""
     user_entry_website = website_entry.get()
     user_entry_email = email_user_entry.get()
     user_entry_pw = password_entry.get()
     # validate all fields filled
     if user_entry_website == "" or user_entry_email == "" or user_entry_pw == "":
-        return False
+        # prompt an error message
+        messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
     else:
         # ask user if they want these settings
         is_ok = messagebox.askokcancel(title="Entry to be added", message=f"You have entered the following\n"
@@ -84,7 +85,7 @@ def save_information_to_string():
 def add_entry():
     """Validates that all forms contain values
     then Creates a formatted string to append onto file"""
-    new_entry = save_information_to_string()
+    new_entry = save_entries_to_string()
     if type(new_entry) == str:
         #   take the new string and append it to the pw_data.txt file
         with open(DATA_FILE, mode="a") as data_file:
@@ -93,7 +94,6 @@ def add_entry():
             messagebox.showinfo(title="New Data Accepted", message="Your new password was added.")
             reset_forms()
     else:
-        messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
         return
 
 
