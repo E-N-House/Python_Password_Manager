@@ -1,7 +1,12 @@
 from tkinter import *
 from tkinter import messagebox
+
 # NOTE: anyone else with app will be unable to use
-from EMAIL import EMAIL_WORK
+# from EMAIL import EMAIL_WORK
+
+# for now temp email exists
+EMAIL_WORK = "temp123@ab.com"
+
 
 # ----------------------------      CONSTANTS      ------------------------------- #
 PROJECT_NAME = "Password Manager"
