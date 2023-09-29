@@ -47,7 +47,10 @@ DATA_FILE = "pw_data.txt"
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
-def generate_pw():
+def generate_pw_click():
+    """On generate password click clears password field, creates a password via password_generator function
+    inserts the new password into the password entry field and last copies the new password to the clipboard
+    DEPENDS on pyperclip install"""
     password_entry.delete(0, END)
     password = password_generator()
     password_entry.insert(0, password)
@@ -171,7 +174,7 @@ password_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START + 2,  stick
 
 # BUTTONS
 generate_password_button = Button(text="Generate Password", background=LABEL_BG_COLOR,
-                                  fg=LABEL_TEXT_COLOR, font=LABEL_FONT, command=generate_pw)
+                                  fg=LABEL_TEXT_COLOR, font=LABEL_FONT, command=generate_pw_click)
 generate_password_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START+2,)
 
 add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
