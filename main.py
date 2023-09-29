@@ -1,14 +1,14 @@
 from tkinter import *
 from tkinter import messagebox
 from password_generator import password_generator
+# allows for use of clipboard functionality
+import pyperclip
 
 # NOTE: anyone else with app will be unable to use
 # from EMAIL import EMAIL_WORK
 
 # for now temp email exists
 EMAIL_WORK = "temp123@ab.com"
-
-
 
 
 # ----------------------------      CONSTANTS      ------------------------------- #
@@ -51,13 +51,10 @@ def generate_pw():
     password_entry.delete(0, END)
     password = password_generator()
     password_entry.insert(0, password)
-
+    pyperclip.copy(password)
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
-
-
-# create pw_data.txt file
 def create_data_file():
     """checks if a file exists. And if it doesn't create a text file using global constant DATA_FILE
     and fills in the column names as top row separated by spacer"""
