@@ -91,6 +91,9 @@ def save_entries_to_string():
         if is_ok:
             # format the info with " | " between each field
             new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
+            # alt way to create a new entry
+            # new_entry_using_join = " | ".join([user_entry_website, user_entry_email, user_entry_pw])
+            # return f"{new_entry_using_join}\n"
             return new_entry
 
 
@@ -153,7 +156,6 @@ password_label.grid(column=LABEL_COLUMN_START, row=LABEL_ROW_START+2, pady=BUTTO
 
 
 # FORM ENTRIES
-# TODO: double check entries line up correctly
 website_entry = Entry(background=FORM_BG_COLOR, fg=LABEL_TEXT_COLOR,
                       font=LABEL_FONT, width=FORM_ENTRY_WIDTH)
 website_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START, columnspan=2, sticky="w")
