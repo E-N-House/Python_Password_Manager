@@ -63,12 +63,14 @@ def create_data_file():
     """checks if a file exists. And if it doesn't create a text file using global constant DATA_FILE
     and fills in the column names as top row separated by spacer"""
     try:
-        open(DATA_FILE).close()
+        file = open(DATA_FILE)
     except FileNotFoundError:
         messagebox.showinfo(title="Creating File", message=f"Creating a file named {DATA_FILE}\n"
                                                            f"to store your information.")
-        with open("pw_data.txt", mode="a") as new_file:
-            new_file.write("WEBSITE | EMAIL_OR_USER | PASSWORD\n")
+        file = open("pw_data.txt", mode="a")
+        file.write("WEBSITE | EMAIL_OR_USER | PASSWORD\n")
+    finally:
+        file.close()
 
 
 #   save that new string in a variable
