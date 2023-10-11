@@ -54,6 +54,7 @@ def generate_pw_click():
     password_entry.delete(0, END)
     password = password_generator()
     password_entry.insert(0, password)
+    # uses pyperclip to copy the password to computer
     pyperclip.copy(password)
 
 
