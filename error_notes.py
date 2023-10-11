@@ -36,6 +36,17 @@ else:
     print("all good")
 finally:
     print("we are finished finding errors")
-    print("and now we are raising our own error message")
-    raise TypeError("this is a made up error")
+    # print("and now we are raising our own error message")
+    # raise TypeError("this is a made up error")
 
+
+# example raising your own error
+def calculate_bmi_with_error_handling():
+    height = float(input("Height: "))
+    weight = int(input("Weight: "))
+    if height > 3:
+        raise ValueError("Human height must be under 3 meters")
+    bmi = weight / height ** 2
+    print(bmi)
+
+calculate_bmi_with_error_handling()
