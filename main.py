@@ -132,8 +132,25 @@ def reset_forms():
 
 # search funcionality
 def search_click():
-    print("search Click")
-    pass
+    user_entry_website = website_entry.get()
+    with open(DATA_FILE, mode="r") as data_file:
+        # returns list
+        data = data_file.readlines()
+        for line in data:
+            dataline = line.split(" | ")
+            print(dataline)
+            if dataline[0] == user_entry_website.lower():
+                stored_email = dataline[1]
+                stored_password = dataline[2]
+                print("found")
+                messagebox.showinfo(title=f"Stored Data Found for {user_entry_website}",
+                                    message=f"Username/Email:     {stored_email}\nPassword:   {stored_password}\n")
+                return True
+            else:
+                print("no")
+                continue
+        messagebox.showinfo(title="No Data Found", message=f"Stored data does not contain:      {user_entry_website}")
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 # creating tk window
