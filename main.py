@@ -33,11 +33,12 @@ BUTTON_PAD_Y = 5
 BUTTON_PAD_X = 5
 
 FORM_BG_COLOR = "light yellow"
-FORM_ENTRY_WIDTH = 46
+FORM_ENTRY_WIDTH = 47
 
 PASSWORD_ENTRY_WIDTH = 27
 
-ADD_BUTTON_WIDTH = 36
+ADD_BUTTON_WIDTH = 40
+INSET_BUTTON_WIDTH = 15
 
 FONT_NAME = "Courier"
 BOLDED_FONT = ("Arial", 26, "bold")
@@ -64,6 +65,7 @@ def create_data_file():
     and fills in the column names as top row separated by spacer"""
     try:
         file = open(DATA_FILE)
+        print("is create_data_running")
     except FileNotFoundError:
         messagebox.showinfo(title="Creating File", message=f"Creating a file named {DATA_FILE}\n"
                                                            f"to store your information.")
@@ -128,6 +130,10 @@ def reset_forms():
     return
 
 
+# search funcionality
+def search_click():
+    print("search Click")
+    pass
 # ---------------------------- UI SETUP ------------------------------- #
 
 # creating tk window
@@ -160,8 +166,8 @@ password_label.grid(column=LABEL_COLUMN_START, row=LABEL_ROW_START+2, pady=BUTTO
 
 # FORM ENTRIES
 website_entry = Entry(background=FORM_BG_COLOR, fg=LABEL_TEXT_COLOR,
-                      font=LABEL_FONT, width=FORM_ENTRY_WIDTH)
-website_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START, columnspan=2, sticky="w")
+                      font=LABEL_FONT, width=PASSWORD_ENTRY_WIDTH)
+website_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START, sticky="w")
 # center curser on website entry
 website_entry.focus()
 
@@ -178,7 +184,7 @@ password_entry.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START + 2,  stick
 
 
 # BUTTONS
-generate_password_button = Button(text="Generate Password", background=LABEL_BG_COLOR,
+generate_password_button = Button(text="Generate Password", background=LABEL_BG_COLOR, width=INSET_BUTTON_WIDTH,
                                   fg=LABEL_TEXT_COLOR, font=LABEL_FONT, command=generate_pw_click)
 generate_password_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START+2,)
 
@@ -187,7 +193,13 @@ add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
 add_button.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+3, columnspan=2,
                 pady=BUTTON_PAD_Y, padx=BUTTON_PAD_X, sticky="w")
 
-# checks for data file on launch and creates if not there
+search_button = Button(text="Search", background=LABEL_BG_COLOR, width=INSET_BUTTON_WIDTH,
+                                  fg=LABEL_TEXT_COLOR, font=LABEL_FONT, command=search_click)
+search_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START,  pady=BUTTON_PAD_Y,
+                   padx=BUTTON_PAD_X,)
+print(search_button.winfo_reqwidth())
+print(generate_password_button.winfo_reqwidth())
+# checks for data file on launch and creates if not there on startup
 create_data_file()
 
 window.mainloop()
