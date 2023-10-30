@@ -120,9 +120,18 @@ def save_as_json():
         # prompt an error message
         messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
     else:
-        with open("pw_data.json", "w") as data_file:
-            json.dump(new_data_dict_for_json, data_file, indent=4)
+        with open("pw_data.json", "r") as data_file:
+            # reading old data
+            data = json.load(data_file)
+            # updating old data with new data
+            data.update(new_data_dict_for_json)
 
+        with open("pw_data.json", "w") as data_file:
+            # adding new data to data file
+            json.dump(data, data_file, indent=4)
+
+
+            # clear fields
             website_entry.delete(0,END)
             password_entry.delete(0, END)
 
