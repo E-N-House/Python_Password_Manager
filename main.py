@@ -67,7 +67,6 @@ def create_data_file():
     and fills in the column names as top row separated by spacer"""
     try:
         file = open(DATA_FILE)
-        print("is create_data_running")
     except FileNotFoundError:
         messagebox.showinfo(title="Creating File", message=f"Creating a file named {DATA_FILE}\n"
                                                            f"to store your information.")
@@ -172,16 +171,13 @@ def search_click():
         data = data_file.readlines()
         for line in data:
             dataline = line.split(" | ")
-            print(dataline)
             if dataline[0] == user_entry_website.lower():
                 stored_email = dataline[1]
                 stored_password = dataline[2]
-                print("found")
                 messagebox.showinfo(title=f"Stored Data Found for {user_entry_website}",
                                     message=f"Username/Email:     {stored_email}\nPassword:   {stored_password}\n")
                 return True
             else:
-                print("no")
                 continue
         messagebox.showinfo(title="No Data Found", message=f"Stored data does not contain:      {user_entry_website}")
 
@@ -248,8 +244,6 @@ search_button = Button(text="Search", background=LABEL_BG_COLOR, width=INSET_BUT
                                   fg=LABEL_TEXT_COLOR, font=LABEL_FONT, command=search_click)
 search_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START,  pady=BUTTON_PAD_Y,
                    padx=BUTTON_PAD_X,)
-print(search_button.winfo_reqwidth())
-print(generate_password_button.winfo_reqwidth())
 # checks for data file on launch and creates if not there on startup
 create_data_file()
 
