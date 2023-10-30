@@ -46,7 +46,7 @@ FONT_NAME = "Courier"
 BOLDED_FONT = ("Arial", 26, "bold")
 LOGO_FILE = "logo.png"
 
-DATA_FILE = "pw_data.txt"
+DATA_FILE = "pw_data.json"
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -62,46 +62,6 @@ def generate_pw_click():
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
-def create_data_file():
-    """checks if a file exists. And if it doesn't create a text file using global constant DATA_FILE
-    and fills in the column names as top row separated by spacer"""
-    try:
-        file = open(DATA_FILE)
-    except FileNotFoundError:
-        messagebox.showinfo(title="Creating File", message=f"Creating a file named {DATA_FILE}\n"
-                                                           f"to store your information.")
-        file = open("pw_data.txt", mode="a")
-        file.write("WEBSITE | EMAIL_OR_USER | PASSWORD\n")
-    finally:
-        file.close()
-
-
-#   save that new string in a variable
-def save_entries_to_string():
-    """gets values from form validates they are filled in correctly.
-    if yes returns formatted string"""
-    user_entry_website = website_entry.get()
-    user_entry_email = email_user_entry.get()
-    user_entry_pw = password_entry.get()
-    # validate all fields filled
-    if user_entry_website == "" or user_entry_email == "" or user_entry_pw == "":
-        # prompt an error message
-        messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
-    else:
-        # ask user if they want these settings
-        is_ok = messagebox.askokcancel(title="Entry to be added", message=f"You have entered the following\n"
-                                                                  f"Website:    {user_entry_website}\n"
-                                                                  f"Username/Email: {user_entry_email}\n"
-                                                                  f"Password:   {user_entry_pw}\n"
-                                                                  f"Press OK to accept or CANCEL to try again.")
-        if is_ok:
-            # format the info with " | " between each field
-            new_entry = f"{user_entry_website} | {user_entry_email} | {user_entry_pw}\n"
-            # alt way to create a new entry
-            # new_entry_using_join = " | ".join([user_entry_website, user_entry_email, user_entry_pw])
-            # return f"{new_entry_using_join}\n"
-            return new_entry
-
 
 def save_as_json():
     """gets values from form validates they are filled in correctly.
@@ -121,59 +81,30 @@ def save_as_json():
         messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
     else:
         try:
-            with open("pw_data.json", "r") as data_file:
+            with open({DATA_FILE}, "r") as data_file:
                 # reading old data
                 data = json.load(data_file)
         except FileNotFoundError:
-            with open("pw_data.json", "w") as data_file:
+            with open({DATA_FILE}, "w") as data_file:
                 json.dump(new_data_dict_for_json, data_file, indent=4)
         else:
             # updating old data with new data
             data.update(new_data_dict_for_json)
 
-            with open("pw_data.json", "w") as data_file:
+            with open({DATA_FILE}, "w") as data_file:
                 # adding new data to data file
                 json.dump(data, data_file, indent=4)
         finally:
             # clear fields
-            website_entry.delete(0,END)
+            website_entry.delete(0, END)
             password_entry.delete(0, END)
 
 
-def add_entry():
-    """Validates that all forms contain values
-    then Creates a formatted string to append onto file"""
-    new_entry = save_entries_to_string()
-    if type(new_entry) == str:
-        #   take the new string and append it to the pw_data.txt file
-        with open(DATA_FILE, mode="a") as data_file:
-            data_file.write(new_entry)
-            data_file.close()
-            messagebox.showinfo(title="New Data Accepted", message="Your new password was added.")
-            reset_forms()
-    else:
-        return
-
-
-# reset the UI
-def reset_forms():
-    """clear website (set website to focus) and clear password entries.
-    Reset email to default. Remove error if it exists"""
-    # clear out forms and reset email to default
-    website_entry.delete(0, END)
-    website_entry.focus()
-    password_entry.delete(0, END)
-    email_user_entry.delete(0, END)
-    email_user_entry.insert(0, EMAIL_WORK)
-    return
-
-
-# search functionality
-def search_click():
+def search_click_with_json():
     user_entry_website = website_entry.get()
     with open(DATA_FILE, mode="r") as data_file:
         # returns list
-        data = data_file.readlines()
+        data = data_file.load()
         for line in data:
             dataline = line.split(" | ")
             if dataline[0] == user_entry_website.lower():
@@ -185,6 +116,7 @@ def search_click():
             else:
                 continue
         messagebox.showinfo(title="No Data Found", message=f"Stored data does not contain:      {user_entry_website}")
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -245,11 +177,9 @@ add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
 add_button.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+3, columnspan=2,
                 pady=BUTTON_PAD_Y, padx=BUTTON_PAD_X, sticky="w")
 
-search_button = Button(text="Search", background=LABEL_BG_COLOR, width=INSET_BUTTON_WIDTH,
-                                  fg=LABEL_TEXT_COLOR, font=LABEL_FONT, command=search_click)
+search_button = Button(text="Search", background=LABEL_BG_COLOR, width=INSET_BUTTON_WIDTH,fg=LABEL_TEXT_COLOR,
+                       font=LABEL_FONT, command=search_click_with_json)
 search_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START,  pady=BUTTON_PAD_Y,
                    padx=BUTTON_PAD_X,)
-# checks for data file on launch and creates if not there on startup
-create_data_file()
 
 window.mainloop()
