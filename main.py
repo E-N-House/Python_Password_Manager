@@ -65,12 +65,13 @@ def generate_pw_click():
 
 def save_as_json():
     """gets values from form validates they are filled in correctly.
-       if yes returns creates or updates a .json file
-       then clears pw and website fields"""
+       if yes creates or updates a .json file
+       if Update will create dict entry of {website.lower(): {"email": entry, "password": entry}}
+       finally clears pw and website fields"""
     user_entry_website = website_entry.get()
     user_entry_email = email_user_entry.get()
     user_entry_pw = password_entry.get()
-    new_data_dict_for_json = {user_entry_website: {
+    new_data_dict_for_json = {user_entry_website.lower(): {
         "email": user_entry_email,
         "password": user_entry_pw,
     }
@@ -81,17 +82,17 @@ def save_as_json():
         messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
     else:
         try:
-            with open({DATA_FILE}, "r") as data_file:
+            with open(DATA_FILE, "r") as data_file:
                 # reading old data
                 data = json.load(data_file)
         except FileNotFoundError:
-            with open({DATA_FILE}, "w") as data_file:
+            with open(DATA_FILE, "w") as data_file:
                 json.dump(new_data_dict_for_json, data_file, indent=4)
         else:
             # updating old data with new data
             data.update(new_data_dict_for_json)
 
-            with open({DATA_FILE}, "w") as data_file:
+            with open(DATA_FILE, "w") as data_file:
                 # adding new data to data file
                 json.dump(data, data_file, indent=4)
         finally:
@@ -101,21 +102,29 @@ def save_as_json():
 
 
 def search_click_with_json():
+    """On click of search
+    reads data file json if it exists
+    looks for requested website in all lowercase
+    creates message box with latest email and password created for said site"""
     user_entry_website = website_entry.get()
-    with open(DATA_FILE, mode="r") as data_file:
-        # returns list
-        data = data_file.load()
-        for line in data:
-            dataline = line.split(" | ")
-            if dataline[0] == user_entry_website.lower():
-                stored_email = dataline[1]
-                stored_password = dataline[2]
-                messagebox.showinfo(title=f"Stored Data Found for {user_entry_website}",
-                                    message=f"Username/Email:     {stored_email}\nPassword:   {stored_password}\n")
-                return True
-            else:
-                continue
-        messagebox.showinfo(title="No Data Found", message=f"Stored data does not contain:      {user_entry_website}")
+    try:
+        with open(DATA_FILE, mode="r") as data_file:
+            # Loads dictionary of json
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="No Data Found", message=f"No Data File Found")
+
+    else:
+        try:
+            search_data = data[user_entry_website.lower()]
+        except KeyError:
+            messagebox.showinfo(title="No Data Found",
+                                message=f"Stored data does not contain:      {user_entry_website}")
+        else:
+            stored_email = search_data["email"]
+            stored_password = search_data["password"]
+            messagebox.showinfo(title=f"Stored Data Found for {user_entry_website}",
+                                message=f"Username/Email:     {stored_email}\nPassword:   {stored_password}\n")
 
 
 # ---------------------------- UI SETUP ------------------------------- #
