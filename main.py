@@ -61,7 +61,7 @@ def generate_pw_click():
     pyperclip.copy(password)
 
 
-# ---------------------------- SAVE PASSWORD ------------------------------- #
+# ---------------------------- SAVE ENTRY ------------------------------- #
 
 def save_as_json():
     """gets values from form validates they are filled in correctly.
@@ -100,6 +100,8 @@ def save_as_json():
             website_entry.delete(0, END)
             password_entry.delete(0, END)
 
+
+# ---------------------------- FIND PASSWORD ------------------------------- #
 
 def search_click_with_json():
     """On click of search
@@ -186,7 +188,7 @@ add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
 add_button.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+3, columnspan=2,
                 pady=BUTTON_PAD_Y, padx=BUTTON_PAD_X, sticky="w")
 
-search_button = Button(text="Search", background=LABEL_BG_COLOR, width=INSET_BUTTON_WIDTH,fg=LABEL_TEXT_COLOR,
+search_button = Button(text="Search", background=LABEL_BG_COLOR, width=INSET_BUTTON_WIDTH, fg=LABEL_TEXT_COLOR,
                        font=LABEL_FONT, command=search_click_with_json)
 search_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START,  pady=BUTTON_PAD_Y,
                    padx=BUTTON_PAD_X,)
