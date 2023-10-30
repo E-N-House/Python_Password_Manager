@@ -1,8 +1,10 @@
 from tkinter import *
 from tkinter import messagebox
 from password_generator import password_generator
+import json
 # allows for use of clipboard functionality
 import pyperclip
+
 
 # NOTE: anyone else with app will be unable to use
 # from EMAIL import EMAIL_WORK
@@ -102,6 +104,29 @@ def save_entries_to_string():
             return new_entry
 
 
+def save_as_json():
+    """gets values from form validates they are filled in correctly.
+       if yes returns formatted string"""
+    user_entry_website = website_entry.get()
+    user_entry_email = email_user_entry.get()
+    user_entry_pw = password_entry.get()
+    new_data_dict_for_json = {user_entry_website: {
+        "email": user_entry_email,
+        "password": user_entry_pw,
+    }
+                         }
+    # validate all fields filled
+    if user_entry_website == "" or user_entry_email == "" or user_entry_pw == "":
+        # prompt an error message
+        messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
+    else:
+        with open("pw_data.json", "w") as data_file:
+            json.dump(new_data_dict_for_json, data_file, indent=4)
+
+            website_entry.delete(0,END)
+            password_entry.delete(0, END)
+
+
 def add_entry():
     """Validates that all forms contain values
     then Creates a formatted string to append onto file"""
@@ -130,7 +155,7 @@ def reset_forms():
     return
 
 
-# search funcionality
+# search functionality
 def search_click():
     user_entry_website = website_entry.get()
     with open(DATA_FILE, mode="r") as data_file:
@@ -206,7 +231,7 @@ generate_password_button = Button(text="Generate Password", background=LABEL_BG_
 generate_password_button.grid(column=LABEL_COLUMN_START+2, row=LABEL_ROW_START+2,)
 
 add_button = Button(text="Add", background=LABEL_BG_COLOR, fg=LABEL_TEXT_COLOR,
-                    font=LABEL_FONT, width=ADD_BUTTON_WIDTH, command=add_entry)
+                    font=LABEL_FONT, width=ADD_BUTTON_WIDTH, command=save_as_json)
 add_button.grid(column=LABEL_COLUMN_START+1, row=LABEL_ROW_START+3, columnspan=2,
                 pady=BUTTON_PAD_Y, padx=BUTTON_PAD_X, sticky="w")
 
