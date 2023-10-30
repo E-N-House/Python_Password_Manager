@@ -105,7 +105,8 @@ def save_entries_to_string():
 
 def save_as_json():
     """gets values from form validates they are filled in correctly.
-       if yes returns formatted string"""
+       if yes returns creates or updates a .json file
+       then clears pw and website fields"""
     user_entry_website = website_entry.get()
     user_entry_email = email_user_entry.get()
     user_entry_pw = password_entry.get()
@@ -119,17 +120,21 @@ def save_as_json():
         # prompt an error message
         messagebox.showerror(title='Blank Entries!', message='All Fields Must Be Entered')
     else:
-        with open("pw_data.json", "r") as data_file:
-            # reading old data
-            data = json.load(data_file)
+        try:
+            with open("pw_data.json", "r") as data_file:
+                # reading old data
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open("pw_data.json", "w") as data_file:
+                json.dump(new_data_dict_for_json, data_file, indent=4)
+        else:
             # updating old data with new data
             data.update(new_data_dict_for_json)
 
-        with open("pw_data.json", "w") as data_file:
-            # adding new data to data file
-            json.dump(data, data_file, indent=4)
-
-
+            with open("pw_data.json", "w") as data_file:
+                # adding new data to data file
+                json.dump(data, data_file, indent=4)
+        finally:
             # clear fields
             website_entry.delete(0,END)
             password_entry.delete(0, END)
