@@ -108,7 +108,7 @@ def search_click_with_json():
     reads data file json if it exists
     looks for requested website in all lowercase
     creates message box with latest email and password created for said site"""
-    user_entry_website = website_entry.get()
+    user_entry_website = website_entry.get().lower()
     try:
         with open(DATA_FILE, mode="r") as data_file:
             # Loads dictionary of json
@@ -117,12 +117,11 @@ def search_click_with_json():
         messagebox.showinfo(title="No Data Found", message=f"No Data File Found")
 
     else:
-        try:
-            search_data = data[user_entry_website.lower()]
-        except KeyError:
+        if user_entry_website not in data:
             messagebox.showinfo(title="No Data Found",
                                 message=f"Stored data does not contain:      {user_entry_website}")
         else:
+            search_data = data[user_entry_website]
             stored_email = search_data["email"]
             stored_password = search_data["password"]
             messagebox.showinfo(title=f"Stored Data Found for {user_entry_website}",
