@@ -107,7 +107,8 @@ def search_click_with_json():
     """On click of search
     reads data file json if it exists
     looks for requested website in all lowercase
-    creates message box with latest email and password created for said site"""
+    creates message box with latest email and password created for said site
+    or creates message box informing website not present"""
     user_entry_website = website_entry.get().lower()
     try:
         with open(DATA_FILE, mode="r") as data_file:
